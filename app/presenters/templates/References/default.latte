@@ -1,0 +1,38 @@
+{block title}Referencie{/block}
+{block content}
+<div class="container">
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <a n:href="Reference:create" n:if="$user->loggedIn" class="btn btn-success">Vytvoriť novú referenciu</a>
+                <hr><h2 class="intro-text text-center">
+                    Referencie <strong> {$referenceChoose}</strong>
+                </h2>
+                <hr>
+                <div n:foreach="$references as $reference" class="col-lg-12">
+                    <div class="col-md-8 text-center">
+                        <h3>{$reference->title}
+                            <br>
+                            <small>{$reference->created_at|date:'F j, Y'}</small>
+                        </h3>
+                        <p class="text-left"><strong>Použité technológie: </strong>{!$reference->technologies|truncate:60}</p> 
+                        <p class="text-left"><strong>Použité zariadenia: </strong>{!$reference->devices|truncate:60}</p>
+                    </div>
+                    <div class="col-md-4  mainImg"> 
+                        <div n:foreach="$galery as $img" n:if="$reference->id == $img->reference_id && $img->mainImg == 1" class="thumbnail">
+                            <a href="{$basePath}{$img->imgUrl}" data-lightbox="l">
+                                <img src="{$basePath}{$img->imgUrl}" class="mImg" alt="">        
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 text-center">
+                        <a n:href="Reference:default $reference->id" class="btn btn-default btn-lg">Ukázať viac</a>
+                    </div>
+                </div>
+                <div class="col-lg-12 text-center">
+                </div>
+            </div>    
+        </div>
+    </div>
+</div>
+{/block}

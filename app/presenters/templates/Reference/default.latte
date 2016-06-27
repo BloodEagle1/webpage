@@ -1,0 +1,57 @@
+{block title}Referencia{/block}
+
+{block content}
+
+<div class="container">
+    <div class="row">
+        <div class="box">
+            <p><a n:href="References:default $referenceChoose = $reference->type" class="btn btn-default">← späť na výpis referencií</a></p>
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">{$reference->title}</h2>
+                <hr>
+                <h2>
+                    <small>{$reference->created_at|date:'F j, Y'}</small>
+                </h2>
+
+                <p><strong>Použité technológie: </strong>{!$reference->technologies|escape|nl2br}</p>
+                <p><strong>Použité zariadenia: </strong>{!$reference->devices|escape|nl2br}</p>
+            </div>
+
+            <div class="col-lg-12 button">
+                <a n:href="edit $reference->id" n:if="$user->loggedIn" class="btn btn-default">Upravit referenciu</a>
+            </div>
+            <div class="col-lg-12 button">
+                <a n:href="delete!" n:if="$user->loggedIn" class="btn btn-danger">Zmazať referenciu</a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-12 galery">
+                {foreach $galery as $img}
+                    <div class="col-md-4 thumbnail" {if $user->loggedIn}id="galeryGroupL" {/if} id="galeryGroup">
+                        <div>
+                            <a href="{$basePath}{$img->imgUrl}" data-lightbox="lalal">
+                                <img src="{$basePath}{$img->imgUrl}" id="galeryImg" alt="">
+                            </a>
+                        </div>
+                        <div>
+                            <a n:href="deleteImage! $img->id,$img->reference_id,$img->name" n:if="$user->loggedIn" class="btn btn-danger">X</a>
+                            {if $img->mainImg == 0}
+                                <a n:href="setMainImg! $img->id,$img->reference_id" n:if="$user->loggedIn" class="btn btn-default">Nastaviť ako hlavný</a>
+                            {/if}
+                            {if $img->mainImg == 1}
+                                <a n:href="setMainImg! $img->id,$img->reference_id" n:if="$user->loggedIn" class="btn btn-success">Nastavený ako hlavný</a>
+                            {/if}
+                        </div>   
+                    </div>  
+                {/foreach}                  
+                <div class="col-lg-4">
+                    {if $user->loggedIn}
+                        {control uploadForm}
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}

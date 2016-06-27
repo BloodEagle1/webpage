@@ -1,0 +1,100 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+*}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>{ifset title}{include title|striptags} | {/ifset}</title>            
+
+        <link rel="stylesheet" href="{$basePath}/css/bootstrap.css">
+        <link rel="stylesheet" href="{$basePath}/css/StyleSheet.css">
+        <link rel="stylesheet" href="{$basePath}/css/lightbox.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:100,300,400,600,700,100italic,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+
+
+        {block head}{/block}
+
+
+    </head>
+
+    <body>
+        <div class="brand">Tri svište SVK, s.r.o.</div>
+
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"  data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>              
+                </button> 
+                <a class="navbar-brand" n:href="Homepage:default">Tri svište SVK, s.r.o.</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a n:href="Homepage:default">Úvod</a></li>
+                    <li><a n:href="About:default">O nás</a></li>
+                    <li><a n:href="References:choose">Referencie</a></li> 
+                    <li><a n:href="Contact:default">Kontakt</a></li>     
+                        {if $user->loggedIn}
+                        <li><a n:href="Sign:out">Odhlásit</a></li>   
+                        {/if}
+                </ul>
+            </div>
+        </nav>
+        <div class="text-center">
+            {**<div n:foreach="$flashes as $flash" n:class="flash, $flash->type" >{$flash->message}</div>*}
+        </div>
+        <a id="back-to-top" href="#" class="btn btn-default back-to-top" 
+           role="button" title="Back to Top" data-toggle="tooltip" data-placement="top">
+            <span class="glyphicon glyphicon-chevron-up"></span>
+        </a>
+
+        {include content}
+
+
+        {block scripts} 
+        <script src="{$basePath}/js/jquery.js"></script>
+        <script src="{$basePath}/js/jquery.nette.js"></script>
+        <script src="{$basePath}/js/bootstrap.js"></script>
+        <script src="{$basePath}/js/lightbox.js"></script>
+        <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+        <script src="{$basePath}/js/nette.ajax.js"></script>        
+        <script src="{$basePath}/js/main.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 50) {
+                        $('#back-to-top').fadeIn();
+                    } else {
+                        $('#back-to-top').fadeOut();
+                    }
+                });
+                // scroll body to 0px on click
+                $('#back-to-top').click(function () {
+                    $('#back-to-top').tooltip('hide');
+                    $('body,html').animate({
+                        scrollTop: 0
+                    }, 800);
+                    return false;
+                });
+
+                $('#back-to-top').tooltip('show');
+            });
+        </script>
+        <script n:syntax="double">
+            $(function () {
+                $('.modal').modal();
+            });
+        </script>
+
+        {/block}
+    </body>
+</html>

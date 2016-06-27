@@ -1,0 +1,22 @@
+<div n:snippet="messages" class="ipub-flash-messages">
+{foreach $flashes as $flash}
+	{if !$flash->isDisplayed()}
+		{if $flash->getOverlay() && $useOverlay}
+			{include 'modal.latte',
+				'modalClass' => 'flash-modal',
+				'level' => $flash->getLevel(),
+				'title' => $flash->getTitle(),
+				'body' => $flash->getMessage(),
+				'useTitle' => $useTitle
+			}
+		{else}
+		<div class="alert alert-{$flash->getLevel()}" data-status="{$flash->getLevel()}">
+			<h2 n:if="$flash->getTitle() && $useTitle">{!$flash->getTitle()}</h2>
+
+			<p>{!$flash->getMessage()}</p>
+		</div>
+		{/if}
+		{?$flash->setDisplayed()}
+	{/if}
+{/foreach}
+</div>
